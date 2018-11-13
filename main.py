@@ -1,4 +1,5 @@
 import numpy as np
+from hash_table import HashTable
 
 def generate_sequence():
     x = np.float16(np.random.randint(-100.00, 100.00, 200))
@@ -26,9 +27,30 @@ seq = generate_sequence()
 
 # split into segments of length 10
 segments = [[seq[i + j] for j in range(10)] for i in range(0, len(seq), 10)]
-#^^^WHAT IS THIS SORCERY
 
-for r in range(len(segments)):
-    print('Segment', r + 1, ' --- ', segments[r])
+# for r in range(len(segments)):
+#     print('Segment', r + 1, ' --- ', segments[r])
+#
+# print(generate_random_segment(20))
 
-print(generate_random_segment(20))
+H=HashTable()
+for i in range(len(segments)):
+    H.put(i, segments[i])
+
+
+# H[54]="cat"
+# H[26]="dog"
+# H[93]="lion"
+# H[17]="tiger"
+# H[77]="bird"
+# H[31]="cow"
+# H[44]="goat"
+# H[55]="pig"
+# H[20]="chicken"
+
+# print(H[20])
+# print(H.slots)
+# print(H.data)
+# print(len(H))
+# print(18 in H)
+print(H.slots)
