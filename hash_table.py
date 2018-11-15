@@ -7,7 +7,7 @@ class HashTable:
         self.deleted= '\0'
 
     def put(self,key,data):
-        if (self.__len__()/self.size) > (8/10):
+        if (len(self)/self.size) > (8/10):
             temp = self.size + 1
             self.slots.append(None)
             self.data.append(None)
