@@ -7,7 +7,7 @@ def generate_sequence():
     # print(x)
     return index
 
-def generate_random_segment(start_index):
+def generate_random_segment():
     '''
     Generates a random sequence of 10 values that can replace
     an unusable segment.
@@ -19,7 +19,7 @@ def generate_random_segment(start_index):
                                     (28, -47.0), (29, 43.0)]
     '''
     x = np.float16(np.random.randint(-100.00, 100.00, 10))
-    index = (list(enumerate(x, start=start_index)))
+    index = (list(enumerate(x)))
     # print(x)
     return index
 
@@ -55,19 +55,30 @@ def msort(x):
                 y.pop(0)
     return result
 
-
-for sublist in segments:
-    list_to_sort=sublist.copy()
-    print(list_to_sort)
-    sorted=msort(list_to_sort)
-    print(sorted)
+def get_intron_exon(seg):
+    sorted=msort(seg)
     negProd=sorted[0][1]*sorted[1][1]
     posProd=sorted[-1][1]*sorted[-2][1]
+
     if negProd>posProd:
-        print(negProd, sorted[0][1], sorted[1][1])
+        if sorted[0][1]==sorted[1][1]: #if the two smallest numbers are the same number
+            return get_intron_exon(generate_random_segment())
+        else:
+            return seg, sorted
     else:
-        print(posProd, sorted[-1][1], sorted[-2][1])
-    break
+        if sorted[-1][1]==sorted[-2][1]: #if the two largest numbers are the same numbers
+            return get_intron_exon(generate_random_segment())
+        else:
+            return seg, sorted
+
+
+for sublist in segments:
+    print('Sublist', '---',sublist)
+    segment, sorted = get_intron_exon(sublist)
+    print('Segment Used', '---',segment)
+    print('Sorted', '---', sorted, '\n')
+
+
 
 
 
