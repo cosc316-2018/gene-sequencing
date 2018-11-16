@@ -12,11 +12,6 @@ def generate_random_segment():
     Generates a random sequence of 10 values that can replace
     an unusable segment.
 
-        start_index: The index that the enumeration should start at.
-            generate_random_segment(20) returns: [(20, 99.0), (21, 67.0),
-                                    (22, -35.0), (23, -61.0), (24, 9.0),
-                                    (25, -78.0), (26, -38.0), (27, -70.0),
-                                    (28, -47.0), (29, 43.0)]
     '''
     x = np.float16(np.random.randint(-100.00, 100.00, 10))
     index = (list(enumerate(x)))
@@ -55,6 +50,20 @@ def msort(x):
                 y.pop(0)
     return result
 
+
+def extract_intron_exon(seg, ind_1, ind_2):
+    exons = []
+    # make sure that the one towards the end is popoed first
+    # to ensure that the location of the second index valie does not change
+    if ind_1 > ind_2:
+        exons.append(seg.pop(ind_1))
+        exons.append(seg.pop(ind_2))
+    else:
+        exons.append(seg.pop(ind_2))
+        exons.append(seg.pop(ind_1))
+
+    return seg, exons
+
 def get_intron_exon(seg):
     sorted=msort(seg)
     negProd=sorted[0][1]*sorted[1][1]
@@ -64,19 +73,22 @@ def get_intron_exon(seg):
         if sorted[0][1]==sorted[1][1]: #if the two smallest numbers are the same number
             return get_intron_exon(generate_random_segment())
         else:
-            return seg, sorted
+            introns, exons = extract_intron_exon(seg, seg.index(sorted[0]), seg.index(sorted[1]))
+            return introns, exons
     else:
         if sorted[-1][1]==sorted[-2][1]: #if the two largest numbers are the same numbers
             return get_intron_exon(generate_random_segment())
         else:
-            return seg, sorted
+            introns, exons = extract_intron_exon(seg, seg.index(sorted[-2]), seg.index(sorted[-1]))
+            return introns, exons
 
 
 for sublist in segments:
     print('Sublist', '---',sublist)
-    segment, sorted = get_intron_exon(sublist)
-    print('Segment Used', '---',segment)
-    print('Sorted', '---', sorted, '\n')
+    introns, exons = get_intron_exon(sublist)
+    print('Introns', '---', introns)
+    print('Exons', '---', exons)
+
 
 
 
