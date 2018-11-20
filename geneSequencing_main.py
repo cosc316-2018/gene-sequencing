@@ -44,35 +44,64 @@ seq = generate_sequence()
 # split into segments of length 10
 segments = [[seq[i + j] for j in range(10)] for i in range(0, len(seq), 10)]
 
-def msort(x):
+# def msort(x):
+#     result = []
+#     if len(x) < 2:
+#         return x
+#     mid = int(len(x)/2)
+#     y = msort(x[:mid])
+#     z = msort(x[mid:])
+#     while (len(y) > 0) or (len(z) > 0):
+#         if len(y) > 0 and len(z) > 0:
+#             # since or data is stored in tuples, we compare
+#             # values at index 1 (which is the data)
+#             if y[0][1] > z[0][1]:
+#                 result.append(z[0])
+#                 z.pop(0)
+#             else:
+#                 result.append(y[0])
+#                 y.pop(0)
+#         elif len(z) > 0:
+#             for i in z:
+#                 result.append(i)
+#                 z.pop(0)
+#         else:
+#             for i in y:
+#                 result.append(i)
+#                 y.pop(0)
+#     return result
+
+# This is written after refering the CLRS book and hints from the site http://en.literateprograms.org/Merge_sort_(Python)
+
+#The merge method takes in the two subarrays and creates a output array
+def merge(left, right):
     result = []
-    if len(x) < 2:
-        return x
-    mid = int(len(x)/2)
-    y = msort(x[:mid])
-    z = msort(x[mid:])
-    while (len(y) > 0) or (len(z) > 0):
-        if len(y) > 0 and len(z) > 0:
-            # since or data is stored in tuples, we compare
-            # values at index 1 (which is the data)
-            if y[0][1] > z[0][1]:
-                result.append(z[0])
-                z.pop(0)
-            else:
-                result.append(y[0])
-                y.pop(0)
-        elif len(z) > 0:
-            for i in z:
-                result.append(i)
-                z.pop(0)
+    i , j = 0 , 0
+    while i < len (left) and j < len (right): # iterate through both arrays and arrange the elements in sorted order
+        if left[i][1] <= right [j][1]:
+            result.append(left[i])
+            i+=1
         else:
-            for i in y:
-                result.append(i)
-                y.pop(0)
+            result.append(right[j])
+            j+=1
+
+#The loop may break before all elements are copied hence append the remaining elements
+    result += left[i:]
+    result += right[j:]
     return result
 
+#The mergesort method to split the arrays into smaller subarrays
+def mergesort(lst):
+    if len(lst) <= 1:
+        return lst
+    middle = int(len(lst) / 2)
+    left = mergesort(lst[:middle])
+    right = mergesort(lst[middle:])
+    return merge(left, right)
+
+
 def get_intron_exon(seg):
-    sorted=msort(seg)
+    sorted=mergesort(seg)
     print(sorted)
     negProd=sorted[0][1]*sorted[1][1]
     posProd=sorted[-1][1]*sorted[-2][1]
