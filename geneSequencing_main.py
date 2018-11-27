@@ -7,22 +7,6 @@ def generate_sequence():
     # print(x)
     return index
 
-# def generate_random_segment():
-#     '''
-#     Generates a random sequence of 10 values that can replace
-#     an unusable segment.
-#
-#         start_index: The index that the enumeration should start at.
-#             generate_random_segment(20) returns: [(20, 99.0), (21, 67.0),
-#                                     (22, -35.0), (23, -61.0), (24, 9.0),
-#                                     (25, -78.0), (26, -38.0), (27, -70.0),
-#                                     (28, -47.0), (29, 43.0)]
-#     '''
-#     x = np.float16(np.random.randint(-100.00, 100.00, 10))
-#     index = (list(enumerate(x)))
-#     # print(x)
-#     return index
-
 def generate_random_segment(start_index):
     '''
     Generates a random sequence of 10 values that can replace
@@ -44,35 +28,7 @@ seq = generate_sequence()
 # split into segments of length 10
 segments = [[seq[i + j] for j in range(10)] for i in range(0, len(seq), 10)]
 
-# def msort(x):
-#     result = []
-#     if len(x) < 2:
-#         return x
-#     mid = int(len(x)/2)
-#     y = msort(x[:mid])
-#     z = msort(x[mid:])
-#     while (len(y) > 0) or (len(z) > 0):
-#         if len(y) > 0 and len(z) > 0:
-#             # since or data is stored in tuples, we compare
-#             # values at index 1 (which is the data)
-#             if y[0][1] > z[0][1]:
-#                 result.append(z[0])
-#                 z.pop(0)
-#             else:
-#                 result.append(y[0])
-#                 y.pop(0)
-#         elif len(z) > 0:
-#             for i in z:
-#                 result.append(i)
-#                 z.pop(0)
-#         else:
-#             for i in y:
-#                 result.append(i)
-#                 y.pop(0)
-#     return result
-
-# This is written after refering the CLRS book and hints from the site http://en.literateprograms.org/Merge_sort_(Python)
-
+#Mergesort found on stackoverflow
 #The merge method takes in the two subarrays and creates a output array
 def merge(left, right):
     result = []
@@ -99,23 +55,6 @@ def mergesort(lst):
     right = mergesort(lst[middle:])
     return merge(left, right)
 
-
-# def get_intron_exon(seg):
-#     sorted=mergesort(seg)
-#     print(sorted)
-#     negProd=sorted[0][1]*sorted[1][1]
-#     posProd=sorted[-1][1]*sorted[-2][1]
-#
-#     if negProd>posProd:
-#         if sorted[0][1]==sorted[1][1]: #if the two smallest numbers are the same number
-#             return get_intron_exon(generate_random_segment(seg[0][0]))
-#         else:
-#             return seg, sorted
-#     else:
-#         if sorted[-1][1]==sorted[-2][1]: #if the two largest numbers are the same numbers
-#             return get_intron_exon(generate_random_segment(seg[0][0]))
-#         else:
-#             return seg, sorted
 def extract_intron_exon(seg, ind_1, ind_2):
     exons = []
     # make sure that the one towards the end is popped first
@@ -146,16 +85,8 @@ def get_intron_exon(seg):
             introns, exons = extract_intron_exon(seg, seg.index(sorted[-2]), seg.index(sorted[-1]))
             return introns, exons
 
-# for sublist in segments:
-#     print('Sublist', '---',sublist)
-#     segment, sorted = get_intron_exon(sublist)
-#     print('Segment Used', '---',segment)
-#     print('Sorted', '---', sorted, '\n')
-
-
 intron_hash = geneSequencing_hash.HashTable()
 exon_hash = geneSequencing_hash.HashTable()
-
 
 for sublist in segments:
     print('Sublist', '---',sublist)
@@ -167,9 +98,29 @@ for sublist in segments:
 
 print("")
 print("intron hash table --- ",intron_hash.data)
+#there are some None spots in there that should not be None ? they should be full of data
+#instead they skip those data points
 print("")
 print("exon hash table --- ",exon_hash.data)
 
+#print("")
 
+for name in range(len(segments)):
+    data_wanted=intron_hash.get(name)
+    #print(data_wanted)
+    intron_dict={}
+    #print("key? ",name)
+    if data_wanted is not None:
+        intron_dict[name]=data_wanted
+        #print(intron_dict[name])
 
+for name in range(len(exon_hash)):
+    data_wanted=exon_hash.get(name)
+    exon_dict={}
+    #dict_key = exon_hash.__getitem__(name)
+    if data_wanted is not None:
+        exon_dict[name]=data_wanted
 
+#for i in range(len(intron_hash)):
+#    print(intron_dict[i])
+#print(exon_dict)
