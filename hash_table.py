@@ -1,13 +1,13 @@
 class HashTable:
-    # courtesy of StackOverflow
+    # courtesy of Carter(tm)
     def __init__(self):
-        self.size = 1
+        self.size = 11
         self.slots = [None] * self.size
         self.data = [None] * self.size
         self.deleted= '\0'
 
     def put(self,key,data):
-        if (len(self)/self.size) > (8/10):
+        if (len(self)/self.size) > (5/10):
             temp = self.size + 1
             self.slots.append(None)
             self.data.append(None)

@@ -1,5 +1,5 @@
 import numpy as np
-import geneSequencing_hash
+from hash_table import HashTable as HT
 
 def generate_sequence():
     x = np.float16(np.random.randint(-100.00, 100.00, 200))
@@ -85,16 +85,20 @@ def get_intron_exon(seg):
             introns, exons = extract_intron_exon(seg, seg.index(sorted[-2]), seg.index(sorted[-1]))
             return introns, exons
 
-intron_hash = geneSequencing_hash.HashTable()
-exon_hash = geneSequencing_hash.HashTable()
+intron_hash = HT()
+exon_hash = HT()
 
+i = 1
 for sublist in segments:
-    print('Sublist', '---',sublist)
+    print('Sublist', i, '---',sublist)
     introns, exons = get_intron_exon(sublist)
     for index in range(len(introns)):
-        intron_hash.put(introns[index][0],introns[index][1])
-    exon_hash.put(exons[0][0],exons[0][1])
-    exon_hash.put(exons[1][0],exons[1][1])
+        intron_hash.put(introns[index][0],introns[index])
+    exon_hash.put(exons[0][0],exons[0])
+    exon_hash.put(exons[1][0],exons[1])
+    print(intron_hash.size)
+    print(exon_hash.size)
+    i += 1
 
 print("")
 print("intron hash table --- ",intron_hash.data)
@@ -105,6 +109,7 @@ print("exon hash table --- ",exon_hash.data)
 
 #print("")
 
+#the GOAL of this is to put the hash table data into a dictionary,,,,i don't actually know if its working
 for name in range(len(segments)):
     data_wanted=intron_hash.get(name)
     #print(data_wanted)
