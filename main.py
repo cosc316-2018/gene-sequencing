@@ -93,11 +93,9 @@ for sublist in segments:
     print('Sublist', i, '---',sublist)
     introns, exons = get_intron_exon(sublist)
     for index in range(len(introns)):
-        intron_hash.put(introns[index][0],introns[index])
-    exon_hash.put(exons[0][0],exons[0])
-    exon_hash.put(exons[1][0],exons[1])
-    print(intron_hash.size)
-    print(exon_hash.size)
+        intron_hash.put(introns[index][0],introns[index][1])
+    exon_hash.put(exons[0][0],exons[0][1])
+    exon_hash.put(exons[1][0],exons[1][1])
     i += 1
 
 print("")
@@ -105,6 +103,7 @@ print("intron hash table --- ",intron_hash.data)
 #there are some None spots in there that should not be None ? they should be full of data
 #instead they skip those data points
 print("")
+print("exon hash table slots --- ",exon_hash.slots)
 print("exon hash table --- ",exon_hash.data)
 
 #print("")
