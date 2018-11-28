@@ -1,5 +1,5 @@
 from hash_table import HashTable as HT
-from sequence import *
+from sequence import generate_sequence
 from extraction import get_intron_exon
 from hash_to_dict import convert_introns, convert_exons
 

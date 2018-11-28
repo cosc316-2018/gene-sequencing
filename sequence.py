@@ -5,6 +5,7 @@ def generate_sequence():
     index = (list(enumerate(x)))
     return index
 
+
 def generate_random_segment(start_index):
     '''
     Generates a random sequence of 10 values that can replace

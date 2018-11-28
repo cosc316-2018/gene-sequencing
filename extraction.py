@@ -1,3 +1,5 @@
+from sequence import generate_random_segment
+
 def get_intron_exon(seg):
     sorted=mergesort(seg)
     negProd=sorted[0][1]*sorted[1][1]
