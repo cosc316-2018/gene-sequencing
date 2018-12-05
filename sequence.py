@@ -1,6 +1,9 @@
 import numpy as np
 
 def generate_sequence():
+    '''
+      Generate the intial gene sequence of 200 elements.
+    '''
     x = np.float16(np.random.randint(-100.00, 100.00, 200))
     index = (list(enumerate(x)))
     return index

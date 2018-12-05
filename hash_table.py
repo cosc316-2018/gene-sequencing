@@ -7,6 +7,9 @@ class HashTable:
         self.deleted= '\0'
 
     def put(self,key,data):
+        '''
+            Add a key value pair to the hastable.
+        '''
         if (len(self)/self.size) > (8/10):
             temp = self.size + 1
             self.slots.append(None)
@@ -36,12 +39,22 @@ class HashTable:
                 self.data[nextslot] = data #replace
 
     def hashfunction(self,key,size):
+        '''
+            The algorithm/method/formula used to hash a given key
+        '''
         return key%size
 
     def rehash(self,oldhash,size):
+        '''
+            If a value already exists at a particular index, 
+            the key is rehashed to get a new index.
+        '''
         return (oldhash+1)%size
 
     def get(self, key):
+        '''
+            Retrieve a key-value pair from the hash table
+        '''
         startslot = self.hashfunction(key, len(self.slots))
 
         data = None
@@ -59,6 +72,8 @@ class HashTable:
                     stop = True
         return data
 
+    # magic methods that allow us to use some of the
+    # methods above with python-specific keywords
     def __getitem__(self, key):
         return self.get(key)
 
@@ -76,6 +91,9 @@ class HashTable:
         return self.get(int(key)) != None
 
     def delete(self, key):
+        '''
+            Delete a key value pair to the hastable.
+        '''
         start_slot = self.hashfunction(key,len(self.slots))
         pos = start_slot
         current = self.slots[pos]
@@ -91,6 +109,10 @@ class HashTable:
                     return None
 
     def is_prime_number(self, x):
+        '''
+            Checks whether a given number is a prime number. This is
+            used in the quadratic probing algorith for the hash table.
+        '''
         if x >= 2:
             for y in range(2,x):
                 if not ( x % y ):

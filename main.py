@@ -16,12 +16,18 @@ exon_hash = HashTable()
 
 print('\n The sublists that were extracted from the initial gene sequence \n')
 
+# for each segment, perform the functions
 i = 1
 for sublist in segments:
     print('Sublist', i, '---',sublist)
+    # extract introns and exons
     introns, exons = get_intron_exon(sublist)
+
+    # put introns in a separate hash table
     for index in range(len(introns)):
         intron_hash.put(introns[index][0],introns[index][1])
+
+    # put exons in a separate hash table
     exon_hash.put(exons[0][0],exons[0][1])
     exon_hash.put(exons[1][0],exons[1][1])
     i += 1
@@ -35,6 +41,7 @@ print('\n', "EXON HASH TABLE SLOTS", "( Size", len(exon_hash), ") --- ",exon_has
 print('\n', "EXON HASH TABLE DATA", "( Size", len(exon_hash), ") --- ",exon_hash.data)
 print('_' * 80)
 
+# convert the has tables to python dictionaries
 intron_dictionary = hash_to_dict.convert(intron_hash)
 exon_dictionary = hash_to_dict.convert(exon_hash)
 
